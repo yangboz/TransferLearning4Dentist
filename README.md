@@ -15,8 +15,11 @@ is the huge amounts of data we can feed to these algorithms. — Andrew Ng
 
 Transfer Learning for Dentist diagnosis aid , an intelligent healthcare application for train/test/predict.
 
-* If You Do Not Have Docker, please first install Docker *
-Docker Installation Instructions: [Ubuntu](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04) | [Windows](https://docs.bitnami.com/containers/how-to/install-docker-in-windows/) | [MacOSX](https://docs.docker.com/docker-for-mac/install/)
+## Overview
+
+(VGG16) model Transfer Learning, + Keras ImageDataGenerator, fine-tune on VGG16, base on MobileNet with ImageNet weights, for prediction 
+
+and evaluate the final score.
 
 ## Conceptual Framework & Details
 
