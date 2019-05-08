@@ -57,7 +57,7 @@ for layer in model.layers[20:]:
 
 train_datagen=ImageDataGenerator(preprocessing_function=preprocess_input) #included in our dependencies
 
-train_generator=train_datagen.flow_from_directory('./train/', # this is where you specify the path to the main data folder
+train_generator=train_datagen.flow_from_directory('data_dentisy/train/gen', # this is where you specify the path to the main data folder
                                                  target_size=(224,224),
                                                  color_mode='rgb',
                                                  batch_size=32,

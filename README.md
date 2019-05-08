@@ -39,3 +39,7 @@ and evaluate the final score.
 https://blog.keras.io/building-powerful-image-classification-models-using-very-little-data.html
 
 https://medium.com/nanonets/nanonets-how-to-use-deep-learning-when-you-have-limited-data-f68c0b512cab
+
+http://cs231n.github.io/transfer-learning/
+
+https://www.pyimagesearch.com/2017/03/20/imagenet-vggnet-resnet-inception-xception-keras/
