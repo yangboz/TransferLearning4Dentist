@@ -46,11 +46,11 @@ from keras import backend as K
 # dimensions of our images.
 img_width, img_height = 150, 150
 
-train_data_dir = 'data_dentisy/train/gen0507'
-validation_data_dir = 'data_dentisy/validation/gen0507'
-nb_train_samples = 100
-nb_validation_samples = 40
-epochs = 50
+train_data_dir = 'data_dentisy/train/gen0509'
+validation_data_dir = 'data_dentisy/validation/gen0509'
+nb_train_samples = 1079
+nb_validation_samples = 403
+epochs = 10
 batch_size = 16
 
 if K.image_data_format() == 'channels_first':
@@ -114,9 +114,9 @@ model.fit_generator(
 
 # serialize model to JSON
 model_json = model.to_json()
-with open("model_v2_den.json", "w") as json_file:
+with open("model_v0509_den.json", "w") as json_file:
     json_file.write(model_json)
 # serialize weights to HDF5
-model.save_weights("model_v2_den.h5")
+model.save_weights("model_v0509_den.h5")
 print("Saved model to disk")
 # model.save_weights('first_try_den.h5')
