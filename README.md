@@ -43,3 +43,5 @@ https://medium.com/nanonets/nanonets-how-to-use-deep-learning-when-you-have-limi
 http://cs231n.github.io/transfer-learning/
 
 https://www.pyimagesearch.com/2017/03/20/imagenet-vggnet-resnet-inception-xception-keras/
+
+https://medium.com/datadriveninvestor/keras-imagedatagenerator-methods-an-easy-guide-550ecd3c0a92
