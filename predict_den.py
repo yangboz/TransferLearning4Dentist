@@ -21,59 +21,70 @@ from keras.models import model_from_json
 from keras.applications.imagenet_utils import decode_predictions
 # from imagenet_utils import decode_predictions
 
+import tensorflow as tf
+
+config = tf.ConfigProto(allow_soft_placement=True)
+
+#最多占gpu资源的70%
+gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.9)
+
+#开始不会给tensorflow全部gpu资源 而是按需增加
+config.gpu_options.allow_growth = True
+sess = tf.Session(config=config)
+
 # In[2]:
 
 
-base_model=MobileNet(weights='imagenet',include_top=False) #imports the mobilenet model and discards the last 1000 neuron layer.
+# base_model=MobileNet(weights='imagenet',include_top=False) #imports the mobilenet model and discards the last 1000 neuron layer.
 
-x=base_model.output
-x=GlobalAveragePooling2D()(x)
-x=Dense(1024,activation='relu')(x) #we add dense layers so that the model can learn more complex functions and classify for better results.
-x=Dense(1024,activation='relu')(x) #dense layer 2
-x=Dense(512,activation='relu')(x) #dense layer 3
-preds=Dense(2,activation='softmax')(x) #final layer with softmax activation
-
-
-# In[3]:
+# x=base_model.output
+# x=GlobalAveragePooling2D()(x)
+# x=Dense(1024,activation='relu')(x) #we add dense layers so that the model can learn more complex functions and classify for better results.
+# x=Dense(1024,activation='relu')(x) #dense layer 2
+# x=Dense(512,activation='relu')(x) #dense layer 3
+# preds=Dense(2,activation='softmax')(x) #final layer with softmax activation
 
 
-model=Model(inputs=base_model.input,outputs=preds)
-#specify the inputs
-#specify the outputs
-#now a model has been created based on our architecture
+# # In[3]:
 
 
-# In[4]:
+# model=Model(inputs=base_model.input,outputs=preds)
+# #specify the inputs
+# #specify the outputs
+# #now a model has been created based on our architecture
 
 
-for layer in model.layers[:20]:
-    layer.trainable=False
-for layer in model.layers[20:]:
-    layer.trainable=True
+# # In[4]:
 
 
-# In[5]:
+# for layer in model.layers[:20]:
+#     layer.trainable=False
+# for layer in model.layers[20:]:
+#     layer.trainable=True
 
 
-train_datagen=ImageDataGenerator(preprocessing_function=preprocess_input) #included in our dependencies
-
-train_generator=train_datagen.flow_from_directory('data_dentisy/train/gen', # this is where you specify the path to the main data folder
-                                                 target_size=(224,224),
-                                                 color_mode='rgb',
-                                                 batch_size=32,
-                                                 class_mode='categorical',
-                                                 shuffle=True)
+# # In[5]:
 
 
-# In[33]:
+# train_datagen=ImageDataGenerator(preprocessing_function=preprocess_input) #included in our dependencies
+
+# train_generator=train_datagen.flow_from_directory('data_dentisy/train/gen', # this is where you specify the path to the main data folder
+#                                                  target_size=(224,224),
+#                                                  color_mode='rgb',
+#                                                  batch_size=32,
+#                                                  class_mode='categorical',
+#                                                  shuffle=True)
 
 
-model.compile(optimizer='Adam',loss='categorical_crossentropy',metrics=['accuracy'])
-# Adam optimizer
-# loss function will be categorical cross entropy
-# evaluation metric will be accuracy
+# # In[33]:
 
-step_size_train=train_generator.n//train_generator.batch_size
+
+# model.compile(optimizer='Adam',loss='categorical_crossentropy',metrics=['accuracy'])
+# # Adam optimizer
+# # loss function will be categorical cross entropy
+# # evaluation metric will be accuracy
+
+# step_size_train=train_generator.n//train_generator.batch_size
 # model.fit_generator(generator=train_generator,
 #                    steps_per_epoch=step_size_train,
 #                    epochs=10)
@@ -92,17 +103,16 @@ step_size_train=train_generator.n//train_generator.batch_size
 
 
 # load json and create model
-json_file = open('model_v1_den.json', 'r')
+json_file = open('model_v0527_den.json', 'r')
 loaded_model_json = json_file.read()
 json_file.close()
 loaded_model = model_from_json(loaded_model_json)
 # load weights into new model
-loaded_model.load_weights("model_v1_den.h5")
+loaded_model.load_weights("model_v0527_den.h5")
 print("Loaded model from disk")
 
-
 img_path = 'IMG_6204.jpg'
-img = image.load_img(img_path, target_size=(224, 224))
+img = image.load_img(img_path, target_size=(150, 150))
 unknown = image.img_to_array(img)
 # print(unknown)
 unknown = np.expand_dims(unknown, axis=0)
@@ -110,9 +120,9 @@ unknown = np.expand_dims(unknown, axis=0)
 unknown = preprocess_input(unknown)
 print('Input image shape:', unknown.shape)
 
-preds = model.predict(unknown)
+preds = loaded_model.predict(unknown)
 print('Predicted:', preds)
-# print('Predicted:', decode_predictions(preds))
+# print('decode_predictions:', decode_predictions(preds))
 
 # evaluate loaded model on test data
 # score = loaded_model.evaluate(X, Y, verbose=0)

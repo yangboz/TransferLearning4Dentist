@@ -1,7 +1,11 @@
 # Byte-compiled / optimized / DLL files
 data_dentisy
 .DS_Store
-*._DS_Store
+data
+data_dentisy
+train
+validation
+preview
 __pycache__/
 *.py[cod]
 *$py.class

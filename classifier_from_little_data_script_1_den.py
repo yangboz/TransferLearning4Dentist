@@ -42,15 +42,26 @@ from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Activation, Dropout, Flatten, Dense
 from keras import backend as K
 
+import tensorflow as tf
+
+config = tf.ConfigProto(allow_soft_placement=True)
+
+#最多占gpu资源的70%
+gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.9)
+
+#开始不会给tensorflow全部gpu资源 而是按需增加
+config.gpu_options.allow_growth = True
+sess = tf.Session(config=config)
+
 
 # dimensions of our images.
 img_width, img_height = 150, 150
 
 train_data_dir = 'data_dentisy/train/gen0509'
 validation_data_dir = 'data_dentisy/validation/gen0509'
-nb_train_samples = 1079
+nb_train_samples = 1784
 nb_validation_samples = 403
-epochs = 10
+epochs = 100
 batch_size = 16
 
 if K.image_data_format() == 'channels_first':
@@ -114,9 +125,9 @@ model.fit_generator(
 
 # serialize model to JSON
 model_json = model.to_json()
-with open("model_v0509_den.json", "w") as json_file:
+with open("model_v0527_den.json", "w") as json_file:
     json_file.write(model_json)
 # serialize weights to HDF5
-model.save_weights("model_v0509_den.h5")
+model.save_weights("model_v0527_den.h5")
 print("Saved model to disk")
 # model.save_weights('first_try_den.h5')

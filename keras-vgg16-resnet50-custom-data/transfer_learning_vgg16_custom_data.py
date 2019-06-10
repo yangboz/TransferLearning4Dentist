@@ -15,6 +15,14 @@ from sklearn.utils import shuffle
 from sklearn.model_selection import train_test_split
 from keras_applications.imagenet_utils import _obtain_input_shape
 
+import tensorflow as tf
+config = tf.ConfigProto(allow_soft_placement=True)
+#最多占gpu资源的70%
+gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.5)
+#开始不会给tensorflow全部gpu资源 而是按需增加
+config.gpu_options.allow_growth = True
+sess = tf.Session(config=config)
+
 img_path = 'elephant.jpg'
 img = image.load_img(img_path, target_size=(224, 224))
 x = image.img_to_array(img)
