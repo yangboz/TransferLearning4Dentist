@@ -19,7 +19,7 @@ Transfer Learning for Dentist diagnosis aid , an intelligent healthcare applicat
 
 ## LeNet
 
-[](https://raw.githubusercontent.com/yangboz/TransferLearning4Dentist/master/LeNet/plot.png)
+![LeNet](https://raw.githubusercontent.com/yangboz/TransferLearning4Dentist/master/LeNet/plot.png)
 
 ## Overview
 
