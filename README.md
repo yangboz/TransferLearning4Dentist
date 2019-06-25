@@ -50,13 +50,15 @@ https://www.pyimagesearch.com/2017/03/20/imagenet-vggnet-resnet-inception-xcepti
 
 https://medium.com/datadriveninvestor/keras-imagedatagenerator-methods-an-easy-guide-550ecd3c0a92
 
-1. Lenet，1986：http://vision.stanford.edu/cs598_spring07/papers/Lecun98.pdf 
+## Papers
 
-2. Alexnet，2012：http://www.cs.toronto.edu/~fritz/absps/imagenet.pdf 
+1.Lenet，1986：http://vision.stanford.edu/cs598_spring07/papers/Lecun98.pdf 
 
-3. VGG，2014：https://arxiv.org/pdf/1409.1556.pdf 
+2.Alexnet，2012：http://www.cs.toronto.edu/~fritz/absps/imagenet.pdf 
 
-4. GoogleNet，2014：https://arxiv.org/pdf/1409.4842.pdf 
+3.VGG，2014：https://arxiv.org/pdf/1409.1556.pdf 
 
-5. ResNet，2015年：https://arxiv.org/pdf/1512.03385.pdf
+4.GoogleNet，2014：https://arxiv.org/pdf/1409.4842.pdf 
+
+5.ResNet，2015年：https://arxiv.org/pdf/1512.03385.pdf
 
