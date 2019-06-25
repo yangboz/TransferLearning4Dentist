@@ -1,0 +1,17 @@
+ python train.py --dataset_train C:\TransferLearning4Dentist\LeNet\data\gen0622\train_r\ --dataset_test C:\TransferLearning4Dentist\LeNet\data\gen0622\test_r\ --model den_normal_missing.model
+
+python dataGen_den.py C:\TransferLearning4Dentist\LeNet\data\raw\normal\ C:\TransferLearning4Dentist\LeNet\data\gen0625\train\00000\ 0 jpg 100
+
+python dataGen_den.py C:\TransferLearning4Dentist\LeNet\data\raw\missing\ C:\TransferLearning4Dentist\LeNet\data\gen0625\train\00001\ 1 jpg 100
+
+python normalize_den.py C:\TransferLearning4Dentist\LeNet\data\gen0625\train\00000\  C:\TransferLearning4Dentist\LeNet\data\gen0625\train_r\00000\ jpg 200 200
+
+python -c "import keras; print(keras.__version__)"
+
+python train.py --dataset_train C:\TransferLearning4Dentist\LeNet\traffic-sign\train --dataset_test C:\TransferLearning4Dentist\LeNet\traffic-sign\test --model den_normal_missing.model
+
+python train.py --dataset_train C:\TransferLearning4Dentist\LeNet\data\gen0624\train --dataset_test C:\TransferLearning4Dentist\LeNet\data\gen0624\test --model den_normal_missing.model
+
+python predict.py --model den_normal_missing.model -i C:\TransferLearning4Dentist\LeNet\traffic-sign\train\00000/01153_00000.png -s
+
+python predict.py --model den_normal_missing.model -i C:\TransferLearning4Dentist\LeNet\den_test_normal.jpg -s
