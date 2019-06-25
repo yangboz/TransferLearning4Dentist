@@ -60,5 +60,5 @@ https://medium.com/datadriveninvestor/keras-imagedatagenerator-methods-an-easy-g
 
 4.GoogleNet，2014：https://arxiv.org/pdf/1409.4842.pdf 
 
-5.ResNet，2015年：https://arxiv.org/pdf/1512.03385.pdf
+5.ResNet，2015：https://arxiv.org/pdf/1512.03385.pdf
 
