@@ -8,10 +8,16 @@ python normalize_den.py C:\TransferLearning4Dentist\LeNet\data\gen0625\train\000
 
 python -c "import keras; print(keras.__version__)"
 
-python train.py --dataset_train C:\TransferLearning4Dentist\LeNet\traffic-sign\train --dataset_test C:\TransferLearning4Dentist\LeNet\traffic-sign\test --model den_normal_missing.model
 
-python train.py --dataset_train C:\TransferLearning4Dentist\LeNet\data\gen0624\train --dataset_test C:\TransferLearning4Dentist\LeNet\data\gen0624\test --model den_normal_missing.model
+python train.py --dataset_train C:\TransferLearning4Dentist\LeNet\data\gen0625\train_r --dataset_test C:\TransferLearning4Dentist\LeNet\data\gen0625\test_r --model den_normal_missing.model --epochs 100
 
-python predict.py --model den_normal_missing.model -i C:\TransferLearning4Dentist\LeNet\traffic-sign\train\00000/01153_00000.png -s
+python train.py --dataset_train C:\TransferLearning4Dentist\LeNet\data\gen0624\train\ --dataset_test C:\TransferLearning4Dentist\LeNet\data\gen0624\tes t --model den_normal_missing.model --epochs 10
+
+python train.py --dataset_train C:\TransferLearning4Dentist\AlexNet\data\gen0625\train_r --dataset_test 
+C:\TransferLearning4Dentist\AlexNet\data\gen0625\test_r --model den_normal_missing.model --epochs 10
 
 python predict.py --model den_normal_missing.model -i C:\TransferLearning4Dentist\LeNet\den_test_normal.jpg -s
+
+python predict.py --model den_normal_missing.model -i C:\TransferLearning4Dentist\LeNet\den_test_missing.jpg -s
+
+docker run -p 8501:8501 -v /tmp/tfserving/serving/tensorflow_serving/servables/tensorflow/testdata/saved_model_half_plus_three:/models/half_plus_three -e MODEL_NAME=half_plus_three -t tensorflow/serving &
