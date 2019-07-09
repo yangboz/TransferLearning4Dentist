@@ -1,23 +1,47 @@
- python train.py --dataset_train C:\TransferLearning4Dentist\LeNet\data\gen0622\train_r\ --dataset_test C:\TransferLearning4Dentist\LeNet\data\gen0622\test_r\ --model den_normal_missing.model
+## Data pre-processing
 
+### Image augumenting
 python dataGen_den.py C:\TransferLearning4Dentist\LeNet\data\raw\normal\ C:\TransferLearning4Dentist\LeNet\data\gen0625\train\00000\ 0 jpg 100
 
 python dataGen_den.py C:\TransferLearning4Dentist\LeNet\data\raw\missing\ C:\TransferLearning4Dentist\LeNet\data\gen0625\train\00001\ 1 jpg 100
 
-python normalize_den.py C:\TransferLearning4Dentist\LeNet\data\gen0625\train\00000\  C:\TransferLearning4Dentist\LeNet\data\gen0625\train_r\00000\ jpg 200 200
+### Train/Test dataset split 10:1
 
+### Image resize and normalize
+
+#### Train
+
+python resize_den.py C:\TransferLearning4Dentist\LeNet\data\gen0625\train\00000\  C:\TransferLearning4Dentist\LeNet\data\gen0625\train_r\00000\ jpg 200 200
+
+python resize_den.py C:\TransferLearning4Dentist\LeNet\data\gen0625\train\00001\  C:\TransferLearning4Dentist\LeNet\data\gen0625\train_r\00001\ jpg 200 200
+
+#### Test
+
+python resize_den.py C:\TransferLearning4Dentist\LeNet\data\gen0708\test\00000\  C:\TransferLearning4Dentist\LeNet\data\gen0708\test_r\00000\ jpg 200 200
+
+python resize_den.py C:\TransferLearning4Dentist\LeNet\data\gen0708\test\00001\  C:\TransferLearning4Dentist\LeNet\data\gen0708\test_r\00001\ jpg 200 200
+
+
+## For trainning
+
+### Verify Keras version
 python -c "import keras; print(keras.__version__)"
 
+python train.py --dataset_train C:\TransferLearning4Dentist\LeNet\data\gen0708\train_r\ --dataset_test C:\TransferLearning4Dentist\LeNet\data\gen0708\test_r\ --model den_normal_missing.model
 
-python train.py --dataset_train C:\TransferLearning4Dentist\LeNet\data\gen0625\train_r --dataset_test C:\TransferLearning4Dentist\LeNet\data\gen0625\test_r --model den_normal_missing.model --epochs 100
+python train.py --dataset_train C:\TransferLearning4Dentist\LeNet\data\gen0708\train_r --dataset_test C:\TransferLearning4Dentist\LeNet\data\gen0708\test_r --model den_normal_missing.model --epochs 100
 
 python train.py --dataset_train C:\TransferLearning4Dentist\LeNet\data\gen0624\train\ --dataset_test C:\TransferLearning4Dentist\LeNet\data\gen0624\tes t --model den_normal_missing.model --epochs 10
 
 python train.py --dataset_train C:\TransferLearning4Dentist\AlexNet\data\gen0625\train_r --dataset_test 
 C:\TransferLearning4Dentist\AlexNet\data\gen0625\test_r --model den_normal_missing.model --epochs 10
 
+### Predict
+
 python predict.py --model den_normal_missing.model -i C:\TransferLearning4Dentist\LeNet\den_test_normal.jpg -s
 
 python predict.py --model den_normal_missing.model -i C:\TransferLearning4Dentist\LeNet\den_test_missing.jpg -s
+
+## Tensorflow serving
 
 docker run -p 8501:8501 -v /tmp/tfserving/serving/tensorflow_serving/servables/tensorflow/testdata/saved_model_half_plus_three:/models/half_plus_three -e MODEL_NAME=half_plus_three -t tensorflow/serving &
