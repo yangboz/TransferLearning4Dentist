@@ -11,15 +11,15 @@ python dataGen_den.py C:\TransferLearning4Dentist\LeNet\data\raw\missing\ C:\Tra
 
 #### Train
 
-python resize_den.py C:\TransferLearning4Dentist\LeNet\data\gen0625\train\00000\  C:\TransferLearning4Dentist\LeNet\data\gen0625\train_r\00000\ jpg 200 200
+python resize_den.py C:\TransferLearning4Dentist\LeNet\data\gen0709\train\00000\  C:\TransferLearning4Dentist\LeNet\data\gen0709\train_r\00000\ jpg 200 200
 
-python resize_den.py C:\TransferLearning4Dentist\LeNet\data\gen0625\train\00001\  C:\TransferLearning4Dentist\LeNet\data\gen0625\train_r\00001\ jpg 200 200
+python resize_den.py C:\TransferLearning4Dentist\LeNet\data\gen0709\train\00001\  C:\TransferLearning4Dentist\LeNet\data\gen0709\train_r\00001\ jpg 200 200
 
 #### Test
 
-python resize_den.py C:\TransferLearning4Dentist\LeNet\data\gen0708\test\00000\  C:\TransferLearning4Dentist\LeNet\data\gen0708\test_r\00000\ jpg 200 200
+python resize_den.py C:\TransferLearning4Dentist\LeNet\data\gen0709\test\00000\  C:\TransferLearning4Dentist\LeNet\data\gen0709\test_r\00000\ jpg 200 200
 
-python resize_den.py C:\TransferLearning4Dentist\LeNet\data\gen0708\test\00001\  C:\TransferLearning4Dentist\LeNet\data\gen0708\test_r\00001\ jpg 200 200
+python resize_den.py C:\TransferLearning4Dentist\LeNet\data\gen0709\test\00001\  C:\TransferLearning4Dentist\LeNet\data\gen0709\test_r\00001\ jpg 200 200
 
 
 ## For trainning
@@ -27,20 +27,25 @@ python resize_den.py C:\TransferLearning4Dentist\LeNet\data\gen0708\test\00001\ 
 ### Verify Keras version
 python -c "import keras; print(keras.__version__)"
 
-python train.py --dataset_train C:\TransferLearning4Dentist\LeNet\data\gen0708\train_r\ --dataset_test C:\TransferLearning4Dentist\LeNet\data\gen0708\test_r\ --model den_normal_missing.model
+python train.py --dataset_train C:\TransferLearning4Dentist\data\gen0709\train_r\ --dataset_test C:\TransferLearning4Dentist\data\gen0709\test_r\ --model den_normal_missing.model
 
-python train.py --dataset_train C:\TransferLearning4Dentist\LeNet\data\gen0708\train_r --dataset_test C:\TransferLearning4Dentist\LeNet\data\gen0708\test_r --model den_normal_missing.model --epochs 100
+python train.py --dataset_train C:\TransferLearning4Dentist\data\gen0709\train_r --dataset_test C:\TransferLearning4Dentist\data\gen0709\test_r --model den_normal_missing.model --epochs 100
 
-python train.py --dataset_train C:\TransferLearning4Dentist\LeNet\data\gen0624\train\ --dataset_test C:\TransferLearning4Dentist\LeNet\data\gen0624\tes t --model den_normal_missing.model --epochs 10
+python train.py --dataset_train C:\TransferLearning4Dentist\data\gen0709\train\ --dataset_test C:\TransferLearning4Dentist\data\gen0709\test_r --model den_normal_missing.model --epochs 10
 
-python train.py --dataset_train C:\TransferLearning4Dentist\AlexNet\data\gen0625\train_r --dataset_test 
-C:\TransferLearning4Dentist\AlexNet\data\gen0625\test_r --model den_normal_missing.model --epochs 10
+python train.py --dataset_train C:\TransferLearning4Dentist\data\gen0709\train_r --dataset_test 
+C:\TransferLearning4Dentist\data\gen0709\test_r --model den_normal_missing.model --epochs 10
 
 ### Predict
 
-python predict.py --model den_normal_missing.model -i C:\TransferLearning4Dentist\LeNet\den_test_normal.jpg -s
+python predict.py --model den_normal_missing20190709.model -i C:\TransferLearning4Dentist\LeNet\den_test_normal.jpg -s
 
-python predict.py --model den_normal_missing.model -i C:\TransferLearning4Dentist\LeNet\den_test_missing.jpg -s
+python predict.py --model den_normal_missing20190709.model -i C:\TransferLearning4Dentist\LeNet\den_test_missing.jpg -s
+
+
+## API
+
+python API/api.py 
 
 ## Tensorflow serving
 

@@ -18,7 +18,7 @@ class AlexNet:
         if K.image_data_format() == "channels_first":   #for tensorflow
             inputShape = (depth, height, width)
         # 1st Convolutional Layer
-        model.add(Conv2D(filters=96, input_shape=(224,224,3), kernel_size=(11,11), strides=(4,4), padding='valid'))
+        model.add(Conv2D(filters=96, input_shape=(224*224*3), kernel_size=(11,11), strides=(4,4), padding='valid'))
         model.add(Activation('relu'))
         # Max Pooling
         model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2), padding='valid'))
