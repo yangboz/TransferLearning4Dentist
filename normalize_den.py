@@ -30,4 +30,6 @@ for img_ in imgs:
     im_resize = img.resize((args.norW,args.norH),Image.ANTIALIAS)
     print("resized image.size:",im_resize.size)
     ##
-    im_resize.save(args.outDir+os.path.basename(img_) +"_"+ str(args.norW)+ "x"+str(args.norH)+"."+args.format, "JPEG")
+    save_filepath = args.outDir+os.path.basename(img_) +"_"+ str(args.norW)+ "x"+str(args.norH)+"."+args.format
+    print("saved filepath:",save_filepath)
+    im_resize.save(save_filepath, "JPEG")

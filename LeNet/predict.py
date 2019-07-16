@@ -8,6 +8,18 @@ import cv2
 
 norm_size = 32
 
+from keras import backend as K
+import tensorflow as tf
+# set GPU memory 
+if('tensorflow' == K.backend()):
+    import tensorflow as tf
+    from keras.backend.tensorflow_backend import set_session
+
+    config = tf.ConfigProto()
+    config.gpu_options.allow_growth = True
+    config.gpu_options.per_process_gpu_memory_fraction=0.7
+    sess = tf.Session(config=config)
+
 def args_parse():
 # construct the argument parse and parse the arguments
     ap = argparse.ArgumentParser()

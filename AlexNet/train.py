@@ -19,13 +19,19 @@ import os
 import sys
 sys.path.append('..')
 from net.alexnet import AlexNet
-
+#https://stackoverflow.com/questions/45662253/can-i-run-keras-model-on-gpu
+from tensorflow.python.client import device_lib
+from keras import backend as K
 import tensorflow as tf
-config = tf.ConfigProto()
-config.gpu_options.allow_growth = True
-config.gpu_options.per_process_gpu_memory_fraction = 0.2
-sess = tf.Session(config=config)
+# set GPU memory 
+if('tensorflow' == K.backend()):
+    import tensorflow as tf
+    from keras.backend.tensorflow_backend import set_session
 
+    config = tf.ConfigProto()
+    config.gpu_options.allow_growth = True
+    config.gpu_options.per_process_gpu_memory_fraction=0.7
+    sess = tf.Session(config=config)
 
 
 def args_parse():
@@ -48,10 +54,10 @@ def args_parse():
 # initialize the number of epochs to train for, initial learning rate,
 # and batch size
 EPOCHS = 10
-INIT_LR = 1e-3
+INIT_LR = 1e-5
 BS = 32
 CLASS_NUM = 2
-norm_size = 224
+norm_size = 32
 
 
 def load_data(path):
@@ -64,7 +70,7 @@ def load_data(path):
     random.shuffle(imagePaths)
     # loop over the input images
     for imagePath in imagePaths:
-        print("imagePath:",imagePath)
+        # print("imagePath:",imagePath)
         # load the image, pre-process it, and store it in the data list
         image = cv2.imread(imagePath)
         image = cv2.resize(image, (norm_size, norm_size))
@@ -77,12 +83,12 @@ def load_data(path):
         basename_imagePath = os.path.basename(imagePath)
         # print("os.path.basename(imagePath):",basename_imagePath)
         label = int(imagePath.split(os.path.sep)[-2]) 
-        print("label:",label)   
+        # print("label:",label)   
         #label = int(basename_imagePath.split("_")[0])
         labels.append(label)
         # if label not in labels:
         #     labels.append(label)
-        print("labels:",labels)
+        # print("labels:",labels)
     
     # scale the raw pixel intensities to the range [0, 1]
     data = np.array(data, dtype="float") / 255.0
@@ -97,10 +103,11 @@ def load_data(path):
 def train(aug,trainX,trainY,testX,testY,args):
     # initialize the model
     print("[INFO] compiling model...")
-    model = AlexNet.build(width=norm_size, height=norm_size, depth=5, classes=CLASS_NUM)
+    model = AlexNet.build(width=norm_size, height=norm_size, depth=3, classes=CLASS_NUM)
     opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
+    run_opts = tf.RunOptions(report_tensor_allocations_upon_oom = True)
     model.compile(loss="categorical_crossentropy", optimizer=opt,
-        metrics=["accuracy"])#binary cross-entropy,categorical_crossentropy
+        metrics=["accuracy"], options = run_opts)#binary cross-entropy,categorical_crossentropy
 
     # train the network
     print("[INFO] training network...")
@@ -130,15 +137,24 @@ def train(aug,trainX,trainY,testX,testY,args):
 
 #python train.py --dataset_train ../../traffic-sign/train --dataset_test ../../traffic-sign/test --model traffic_sign.model
 if __name__=='__main__':
+    
+    print("list_local_devices:",device_lib.list_local_devices())
+    print("tf.test.is_gpu_available():",tf.test.is_gpu_available())
+    print("tf.test.gpu_device_name():",tf.test.gpu_device_name())
+    print("_get_available_gpus:",K.tensorflow_backend._get_available_gpus())
+    print("tf.test.is_built_with_cuda():",tf.test.is_built_with_cuda())
+
+
+
     args = args_parse()
     EPOCHS = int(args["epochs"])
     train_file_path = args["dataset_train"]
     test_file_path = args["dataset_test"]
     trainX,trainY = load_data(train_file_path)
-    print("trainX,trainY:",trainX,trainY)
-    print("(shape)trainX,trainY:",trainX.shape,trainY.shape)
+    # print("trainX,trainY:",trainX,trainY)
+    # print("(shape)trainX,trainY:",trainX.shape,trainY.shape)
     testX,testY = load_data(test_file_path)
-    print("testX,testY:",testX,testY)
+    # print("testX,testY:",testX,testY)
     # construct the image generator for data augmentation
     aug = ImageDataGenerator(rotation_range=30, width_shift_range=0.1,
         height_shift_range=0.1, shear_range=0.2, zoom_range=0.2,

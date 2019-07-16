@@ -19,6 +19,17 @@ import os
 import sys
 sys.path.append('..')
 from net.lenet import LeNet
+from keras import backend as K
+import tensorflow as tf
+# set GPU memory 
+if('tensorflow' == K.backend()):
+    import tensorflow as tf
+    from keras.backend.tensorflow_backend import set_session
+
+    config = tf.ConfigProto()
+    config.gpu_options.allow_growth = True
+    config.gpu_options.per_process_gpu_memory_fraction=0.7
+    sess = tf.Session(config=config)
 
 
 
@@ -42,7 +53,7 @@ def args_parse():
 # initialize the number of epochs to train for, initial learning rate,
 # and batch size
 EPOCHS = 10
-INIT_LR = 1e-3
+INIT_LR = 1e-5
 BS = 32
 CLASS_NUM = 2
 norm_size = 32
@@ -93,9 +104,9 @@ def train(aug,trainX,trainY,testX,testY,args):
     print("[INFO] compiling model...")
     model = LeNet.build(width=norm_size, height=norm_size, depth=3, classes=CLASS_NUM)
     opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
-    model.compile(loss="categorical_crossentropy", optimizer=opt,
-        metrics=["accuracy"])#binary cross-entropy,categorical_crossentropy
-
+    run_opts = tf.RunOptions(report_tensor_allocations_upon_oom = True)
+    model.compile(loss="binary_crossentropy", optimizer=opt,
+        metrics=["accuracy"], options = run_opts)#binary cross-entropy,categorical_crossentropy
     # train the network
     print("[INFO] training network...")
     H = model.fit_generator(aug.flow(trainX, trainY, batch_size=BS),
