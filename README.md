@@ -21,6 +21,16 @@ Transfer Learning for Dentist diagnosis aid , an intelligent healthcare applicat
 
 ![LeNet](https://raw.githubusercontent.com/yangboz/TransferLearning4Dentist/master/LeNet/plot.png)
 
+## AlexNet
+
+## ZfNet
+
+## VggNet
+
+## ResNet
+
+![ResNet](https://raw.githubusercontent.com/yangboz/TransferLearning4Dentist/master/ResNet/plot.png)
+
 ## Overview
 
 (VGG16) model Transfer Learning, + Keras ImageDataGenerator, fine-tune on VGG16, base on MobileNet with ImageNet weights, for prediction 
