@@ -5,21 +5,8 @@ import numpy as np
 import argparse
 import imutils
 import cv2
-from keras import backend as K
-import tensorflow as tf
-# set GPU memory 
-if('tensorflow' == K.backend()):
-    import tensorflow as tf
-    from keras.backend.tensorflow_backend import set_session
 
-    config = tf.ConfigProto()
-    config.gpu_options.allow_growth = True
-    # config.log_device_placement=True
-    # config.gpu_options.allow_soft_placement = True
-    config.gpu_options.per_process_gpu_memory_fraction=0.6
-    sess = tf.Session(config=config)
-
-norm_size = 200
+norm_size = 224
 
 def args_parse():
 # construct the argument parse and parse the arguments
@@ -61,7 +48,7 @@ def predict(args):
     
     if args['show']:   
         # draw the label on the image
-        output = imutils.resize(orig, width=200)
+        output = imutils.resize(orig, width=400)
         cv2.putText(output, label, (10, 25),cv2.FONT_HERSHEY_SIMPLEX,
             0.7, (0, 255, 0), 2)       
         # show the output image

@@ -5,7 +5,7 @@ matplotlib.use("Agg")
  
 # import the necessary packages
 from keras.preprocessing.image import ImageDataGenerator
-from keras.optimizers import Adam
+from keras.optimizers import Adam,SGD
 from sklearn.model_selection import train_test_split
 from keras.preprocessing.image import img_to_array
 from keras.utils import to_categorical
@@ -16,13 +16,13 @@ import argparse
 import random
 import cv2
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = '0'
 import sys
 sys.path.append('..')
-from net.alexnet import AlexNet
+from net.zfnet import ZfNet
 #https://stackoverflow.com/questions/45662253/can-i-run-keras-model-on-gpu
 from tensorflow.python.client import device_lib
 from keras import backend as K
+K.set_image_dim_ordering('tf')
 import tensorflow as tf
 # set GPU memory 
 if('tensorflow' == K.backend()):
@@ -31,9 +31,7 @@ if('tensorflow' == K.backend()):
 
     config = tf.ConfigProto()
     config.gpu_options.allow_growth = True
-    # config.log_device_placement=True
-    # config.gpu_options.allow_soft_placement = True
-    config.gpu_options.per_process_gpu_memory_fraction=0.8
+    config.gpu_options.per_process_gpu_memory_fraction=0.7
     sess = tf.Session(config=config)
 
 
@@ -58,7 +56,7 @@ def args_parse():
 # and batch size
 EPOCHS = 10
 INIT_LR = 1e-5
-BS = 4
+BS = 32
 CLASS_NUM = 2
 norm_size = 32
 
@@ -106,8 +104,14 @@ def load_data(path):
 def train(aug,trainX,trainY,testX,testY,args):
     # initialize the model
     print("[INFO] compiling model...")
-    model = AlexNet.build(width=norm_size, height=norm_size, depth=3, classes=CLASS_NUM)
-    opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
+    model = ZfNet.build(width=norm_size, height=norm_size, depth=3, classes=CLASS_NUM)
+    # opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
+    optimizer_dicc = {'sgd': optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True),
+                          'rmsprop': optimizers.RMSprop(lr=0.001, rho=0.9, epsilon=1e-08, decay=0.0),
+                          'adagrad': optimizers.Adagrad(lr=0.01, epsilon=1e-08, decay=0.0),
+                          'adadelta': optimizers.Adadelta(lr=1.0, rho=0.95, epsilon=1e-08, decay=0.0),
+                          'adam': optimizers.Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)}
+    opt = SGD(lr=INIT_LR, decay=INIT_LR / EPOCHS, momentum=0.9, nesterov=True)
     run_opts = tf.RunOptions(report_tensor_allocations_upon_oom = True)
     model.compile(loss="categorical_crossentropy", optimizer=opt,
         metrics=["accuracy"], options = run_opts)#binary cross-entropy,categorical_crossentropy

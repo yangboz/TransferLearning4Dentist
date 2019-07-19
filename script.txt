@@ -1,9 +1,9 @@
 ## Data pre-processing
 
 ### Image augumenting
-python dataGen_den.py C:\TransferLearning4Dentist\LeNet\data\raw\normal\ C:\TransferLearning4Dentist\LeNet\data\gen0625\train\00000\ 0 jpg 100
+python dataGen_den.py C:\TransferLearning4Dentist\data\raw\normal\ C:\TransferLearning4Dentist\data\gen0717\train\00000\ 0 jpg 100
 
-python dataGen_den.py C:\TransferLearning4Dentist\LeNet\data\raw\missing\ C:\TransferLearning4Dentist\LeNet\data\gen0625\train\00001\ 1 jpg 100
+python dataGen_den.py C:\TransferLearning4Dentist\data\raw\missing\ C:\TransferLearning4Dentist\data\gen0717\train\00001\ 1 jpg 100
 
 ### Train/Test dataset split 10:1
 
@@ -31,7 +31,7 @@ python train.py --dataset_train C:\TransferLearning4Dentist\data\gen0709\train_r
 
 python train.py --dataset_train C:\TransferLearning4Dentist\data\gen0713\train_r --dataset_test C:\TransferLearning4Dentist\data\gen0713\test_r --model den_normal_missing.model --epochs 100
 
-python train.py --dataset_train C:\TransferLearning4Dentist\data\gen0713\train\ --dataset_test C:\TransferLearning4Dentist\data\gen0713\test_r --model den_normal_missing.model --epochs 10
+python train.py --dataset_train C:\TransferLearning4Dentist\data\gen0713\train_r\ --dataset_test C:\TransferLearning4Dentist\data\gen0713\test_r --model den_normal_missing.model --epochs 10
 
 python train.py --dataset_train C:\TransferLearning4Dentist\data\gen0713\train_r --dataset_test 
 C:\TransferLearning4Dentist\data\gen0713\test_r --model den_normal_missing.model --epochs 10

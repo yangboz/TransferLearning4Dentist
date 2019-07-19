@@ -5,6 +5,9 @@ import numpy as np
 import argparse
 import imutils
 import cv2
+
+norm_size = 64
+
 from keras import backend as K
 import tensorflow as tf
 # set GPU memory 
@@ -14,12 +17,8 @@ if('tensorflow' == K.backend()):
 
     config = tf.ConfigProto()
     config.gpu_options.allow_growth = True
-    # config.log_device_placement=True
-    # config.gpu_options.allow_soft_placement = True
-    config.gpu_options.per_process_gpu_memory_fraction=0.6
+    config.gpu_options.per_process_gpu_memory_fraction=0.7
     sess = tf.Session(config=config)
-
-norm_size = 200
 
 def args_parse():
 # construct the argument parse and parse the arguments
@@ -38,10 +37,12 @@ def predict(args):
     # load the trained convolutional neural network
     print("[INFO] loading network...")
     model = load_model(args["model"])
+    # print("loaded model:",model)
     
     #load the image
     image = cv2.imread(args["image"])
     orig = image.copy()
+    # print("imreaded image:",image)
      
     # pre-process the image for classification
     image = cv2.resize(image, (norm_size, norm_size))
@@ -51,17 +52,17 @@ def predict(args):
      
     # classify the input image
     result = model.predict(image)[0]
-    #print (result.shape)
+    print ("predict result:",result)
     proba = np.max(result)
     lbl_names = ["normal","missing"]
-    # label = str(np.where(result==proba)[0])
+    label = str(np.where(result==proba)[0])
     label = lbl_names[int(np.where(result==proba)[0])]
     label = "{}: {:.2f}%".format(label, proba * 100)
     print(label)
     
     if args['show']:   
         # draw the label on the image
-        output = imutils.resize(orig, width=200)
+        output = imutils.resize(orig, width=400)
         cv2.putText(output, label, (10, 25),cv2.FONT_HERSHEY_SIMPLEX,
             0.7, (0, 255, 0), 2)       
         # show the output image
