@@ -14,6 +14,6 @@ pytesseract==0.2.7
 pytz==2019.1
 simplejson==3.16.0
 six==1.12.0
-Werkzeug==2.2.3
+Werkzeug==3.0.1
 Flask-Testing==0.7.1
 tensorflow
